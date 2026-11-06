@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Dev: The Long Front, wireframe</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap" />
+  <style>
+    /* ── dev wrapper: rough stand-in for the Drupal theme; not part of the build ───────── */
+    html, body { overflow-x: clip; }
+    body { margin: 0; font: 18px/1.55 Georgia, serif; color: #1d1d1b; }
+    .field--name-body .field__item { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    .intro { max-width: 42rem; }
+    h2, h3 { font-family: "PT Sans", "PT Sans Narrow", Arial, sans-serif; color: #1d3956; }
+
+    /* ── wireframe-only furniture (placeholders, notes, control panel) ───────────────── */
+    .wf-hero { margin: 1.5rem 0; padding: 3rem 2rem; background: #1d3956; color: #fff; }
+    .wf-hero h1 { margin: 0 0 0.5rem; font: 700 2.4rem/1.1 "PT Sans Narrow", "Arial Narrow", sans-serif; }
+    .wf-hero p { margin: 0; font: 1rem/1.3 "PT Sans Narrow", "Arial Narrow", sans-serif; opacity: 0.8; }
+    .wf-ph { margin: 1rem 0; }
+    .wf-ph .wf-tag { font: 0.875rem/1.3 "PT Sans Narrow", "Arial Narrow", sans-serif; color: #646363; margin-bottom: 0.35rem; }
+    .wf-lines { height: var(--h, 6.2em); background: repeating-linear-gradient(to bottom, #e4e4e4 0 0.7em, transparent 0.7em 1.55em); border-radius: 2px; }
+    .wf-lines--short { --h: 3.1em; }
+    .wf-pull { border-left: 4px solid #a41e26; padding-left: 1rem; }
+    .wf-gap { margin: 0 0 60vh; padding: 0.6rem 0.8rem; border: 1px dashed #c6c6c6; font: 0.9375rem/1.3 "PT Sans Narrow", "Arial Narrow", sans-serif; color: #646363; }
+    .wf-act2 { margin: 3rem 0; border: 1px dashed #646363; background: #f9f9f9; height: 70vh; min-height: 22rem; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; font: 1.125rem/1.4 "PT Sans Narrow", "Arial Narrow", sans-serif; color: #646363; }
+    .wf-act2 .wf-filters { position: absolute; top: 0.75rem; left: 0.75rem; display: flex; gap: 0.5rem; }
+    .wf-act2 .wf-filters span { border: 1px solid #c6c6c6; background: #fff; padding: 0.3rem 0.6rem; font-size: 0.875rem; color: #333; }
+
+    #wf-panel { position: fixed; right: 0.75rem; bottom: 0.75rem; z-index: 60; width: 19rem; max-width: calc(100vw - 1.5rem); background: #fff; border: 1px dashed #333; font: 0.875rem/1.35 "PT Sans Narrow", "Arial Narrow", sans-serif; color: #1d1d1b; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); }
+    #wf-panel summary { cursor: pointer; padding: 0.4rem 0.6rem; font-weight: 700; }
+    #wf-panel .wf-body { padding: 0 0.6rem 0.6rem; }
+    #wf-panel label { margin-right: 0.8rem; }
+    #wf-panel .wf-flag { margin-top: 0.4rem; padding-top: 0.4rem; border-top: 1px solid #c6c6c6; }
+    #wf-panel .wf-flag b { color: #a41e26; }
+
+    /* ── .lf- layout: carried over from fa.css; --side and --over are the two candidates ── */
+    .lf-scrolly {
+      --lf-navy: #1d3956; --lf-neutral: #333333; --lf-ink: #1d1d1b; --lf-muted: #646363; --lf-light: #c6c6c6;
+      --lf-font: "PT Sans Narrow", "Arial Narrow", sans-serif;
+      position: relative; display: flex; gap: 2.5rem; max-width: 1200px; margin: 2rem auto;
+    }
+    .lf-stage > p { display: none; } /* Drupal's empty paragraphs */
+
+    /* steps */
+    .lf-steps { flex: 0 0 34%; max-width: 28rem; padding: 35vh 0 55vh; position: relative; z-index: 2; }
+    .lf-stage { flex: 1 1 auto; min-width: 0; position: sticky; top: 0; align-self: flex-start; height: 100vh; height: 100svh; }
+    .lf-step { margin: 0 0 60vh; opacity: 0.25; transition: opacity 0.3s ease; }
+    .lf-step.is-active { opacity: 1; }
+    .lf-steps > h3 { margin: 0 0 1.25rem; }
+    .lf-step + h3 { margin-top: -30vh; }
+
+    /* --over: full-width stage, cards scroll over it (the existing mobile CSS, promoted) */
+    .lf-scrolly--over { flex-direction: column; gap: 0; }
+    .lf-scrolly--over .lf-stage { order: -1; align-self: stretch; }
+    .lf-scrolly--over .lf-steps { flex: none; max-width: none; margin-top: -100vh; margin-top: -100svh; padding: 70vh 0.75rem 30vh; pointer-events: none; }
+    .lf-scrolly--over .lf-step,
+    .lf-scrolly--over .lf-steps > h3 { pointer-events: auto; background: rgba(255, 255, 255, 0.94); padding: 0.9rem 1rem; max-width: 30rem; }
+    .lf-scrolly--over .lf-step { margin-bottom: 65vh; }
+    .lf-scrolly--over .lf-step + h3 { margin-top: 0; }
+    .lf-scrolly--over .wf-gap { max-width: 30rem; margin-bottom: 65vh; background: rgba(255, 255, 255, 0.94); pointer-events: auto; }
+
+    /* chart frame */
+    .lf-chart { position: absolute; inset: 1.5rem 0; display: flex; flex-direction: column; font-family: var(--lf-font); color: var(--lf-ink); opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s; }
+    .lf-chart.is-active { opacity: 1; visibility: visible; }
+    .lf-title { font-size: 1.5rem; font-weight: 700; line-height: 1.15; }
+    .lf-subtitle { font-size: 1.0625rem; line-height: 1.3; color: var(--lf-muted); margin-top: 0.15rem; }
+    .lf-map { flex: 1 1 0; min-height: 0; position: relative; }
+    .lf-map svg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+    .lf-map svg text { font: 12px var(--lf-font); fill: var(--lf-muted); }
+    .lf-map svg text.b { font-weight: 700; fill: var(--lf-ink); }
+    .lf-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-top: 0.5rem; font-size: 0.875rem; color: var(--lf-muted); }
+
+    /* the footprint of a card in --over (wireframe only) */
+    .wf-zone { display: none; position: absolute; left: 0; bottom: 0; width: min(30rem, 100%); height: 40%; border: 2px dashed #a41e26; background: repeating-linear-gradient(45deg, rgba(164, 30, 38, 0.07) 0 8px, transparent 8px 16px); z-index: 3; pointer-events: none; font: 700 0.8125rem/1.2 "PT Sans Narrow", sans-serif; color: #a41e26; padding: 0.4rem 0.6rem; }
+    .lf-scrolly--over .wf-zone { display: block; }
+    .lf-scrolly--phone .wf-zone { width: 100%; height: 44%; }
+
+    @media (max-width: 768px) {
+      .wf-hero h1 { font-size: 1.7rem; }
+      .lf-scrolly { margin: 1rem 0; }
+      #wf-panel { right: 0.5rem; bottom: 0.5rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { .lf-step, .lf-chart { transition: none; } }
+  </style>
+</head>
+
+<body>
+  <div class="field--name-body">
+    <div class="field__item">
+
+      <!-- hero band (open decision 5) -->
+      <div class="wf-hero">
+        <h1>The Long Front: how Russia’s military threat to the EU evolves</h1>
+        <p>Title not final (alternative: “Beyond ceasefire: Russia’s long-term military threat to the EU”). Hero visual: to be decided.</p>
+      </div>
+
+      <!-- introduction: ~3 paragraphs, written last, with basic recommendations -->
+      <div class="intro wf-ph">
+        <div class="wf-tag">Placeholder · introduction, paragraph 1 of 3 (framing)</div>
+        <div class="wf-lines"></div>
+      </div>
+      <div class="intro wf-ph">
+        <div class="wf-tag">Placeholder · introduction, paragraph 2 of 3 (basic recommendations)<span id="endnote-001-backlink"><a href="#endnote-001"><sup><b>(1)</b></sup></a></span></div>
+        <div class="wf-lines"></div>
+      </div>
+      <div class="intro wf-ph">
+        <div class="wf-tag">Placeholder · introduction, paragraph 3 of 3 (signpost to the explorable map below)</div>
+        <div class="wf-lines"></div>
+      </div>
+
+      <!-- part 1, condensed to one paragraph -->
+      <div class="intro wf-ph">
+        <h2>It is not we who threaten</h2>
+        <div class="wf-tag">Placeholder · Part 1 in one paragraph: Moscow says it is threatened, the evidence points the other way</div>
+        <div class="wf-lines"></div>
+        <div class="wf-tag wf-pull" style="margin-top:1rem">Optional pull quote (Belousov, 17 December 2025)</div>
+      </div>
+
+      <!-- section lead 1 -->
+      <div class="intro wf-ph">
+        <h2>Means</h2>
+        <div class="wf-tag">Placeholder · section lead, about one paragraph</div>
+        <div class="wf-lines wf-lines--short"></div>
+      </div>
+
+      <!-- the scrollytelling section: markup as it would be pasted into Drupal -->
+      <div class="lf-scrolly lf-scrolly--side" id="scrolly" data-story="long_front">
+        <div class="lf-steps">
+          <h3>Spending and people</h3>
+          <p class="lf-step" data-step="M1.1">In real terms, Russia now spends more than twice as much on its military as before the full-scale invasion, and a larger share of its economy than at any time since 1992.</p>
+          <div class="wf-gap">Wireframe only: steps M1.2, M1.3 and M2 go here.</div>
+          <h3>The front hardens</h3>
+          <p class="lf-step" data-step="P0">Since Finland joined NATO in April 2023, the alliance’s border with Russia runs from the Arctic Ocean to the Baltic, and most of it passes through forest and tundra rather than past the Baltic states. Moscow responded by reorganising its military districts – and says openly that this is aimed at NATO.</p>
+          <div class="wf-gap">Wireframe only: steps P1, P2 (Karelia) and P3 (Kola) go here.</div>
+          <p class="lf-step" data-step="P4">At the southern end of the front, the logic changes. Russia keeps only about 2,100 troops in Belarus, but it has turned the country into a forward platform for nuclear-capable missiles, close to Poland and the Baltic states, within a treaty framework that binds Minsk long-term however the war in Ukraine ends.</p>
+        </div>
+        <div class="lf-stage"></div>
+      </div>
+
+      <!-- Act 2: the centrepiece -->
+      <div class="wf-act2">
+        <div class="wf-filters"><span>Force type ▾</span><span>Change indicator ▾</span></div>
+        <div>Act 2 · the explorable map, full container width<br>All sites from the dataset; the Act 1 sites stay highlighted.</div>
+      </div>
+
+      <h2>References</h2>
+      <p class="intro" id="endnote-001"><a href="#endnote-001-backlink"><b>1.</b></a>	Placeholder endnote.</p>
+
+    </div>
+  </div>
+
+  <!-- wireframe control panel -->
+  <details id="wf-panel" open>
+    <summary>Wireframe controls</summary>
+    <div class="wf-body">
+      <label><input type="radio" name="lay" value="side" checked> Side</label>
+      <label><input type="radio" name="lay" value="over"> Over</label>
+      <div id="wf-mobile-note" hidden>Narrow screen: Over is forced (as in Levers).</div>
+      <div class="wf-flag"></div>
+    </div>
+  </details>
+
+  <script>
+    // ── chart size per layout and chart (the real modules read this from the spec) ─────────
+    // side:  stage is a tall column next to the steps
+    // over:  stage is the full container width, cards on top
+    // phone: stage is a full-screen portrait, cards over the lower part
+    const SPEC = {
+      side:  { bars: [600, 520], arc: [520, 640], bel: [560, 640] },
+      over:  { bars: [960, 540], arc: [960, 540], bel: [960, 540] },
+      phone: { bars: [420, 640], arc: [420, 640], bel: [420, 640] },
+    };
+    // where the subject is drawn inside the chart: in --over it moves right (desktop) or up (phone) to leave room for the card
+    function area(mode, W, H) {
+      if (mode === 'over') return { x: W * 0.38, y: H * 0.05, w: W * 0.6, h: H * 0.9 };
+      if (mode === 'phone') return { x: W * 0.03, y: H * 0.02, w: W * 0.94, h: H * 0.5 };
+      return { x: W * 0.02, y: H * 0.02, w: W * 0.96, h: H * 0.96 };
+    }
+    const RUS = '#a41e26', INK = '#1d1d1b', LIGHT = '#c6c6c6', MUTED = '#646363';
+
+    // ── schematic drawings: not data, not geography ─────────────────────────────────────────
+    function drawBars(a) {
+      const yrs = [1992, 1998, 2008, 2016, 2021, 2022, 2023, 2024, 2025];
+      const usd = [47.5, 15.8, 46.9, 80.5, 68.5, 88.7, 109.0, 149.4, 158.2]; // key years from the draft
+      const gdp = [4.4, 2.7, 3.1, 5.4, 3.6, 4.6, 5.3, 6.9, 7.5];
+      const L = a.x + 34, R = a.x + a.w, band = (R - L) / yrs.length, bw = band * 0.6;
+      const t1 = a.y + 22, b1 = a.y + a.h * 0.58, t2 = a.y + a.h * 0.7, b2 = a.y + a.h * 0.9;
+      let s = `<text x="${a.x}" y="${a.y + 8}">Wireframe: the nine key years of the draft only; the full series follows with the SIPRI file</text>`;
+      s += `<line x1="${L}" x2="${R}" y1="${b1}" y2="${b1}" stroke="${LIGHT}"/><line x1="${L}" x2="${R}" y1="${b2}" y2="${b2}" stroke="${LIGHT}"/>`;
+      s += `<text x="${a.x}" y="${t1 - 6}" class="b">US$ bn, constant 2024 prices</text><text x="${a.x}" y="${t2 - 8}" class="b">% of GDP</text>`;
+      const pts = [];
+      yrs.forEach((y, i) => {
+        const x = L + i * band + (band - bw) / 2, h = (usd[i] / 160) * (b1 - t1);
+        s += `<rect x="${x}" y="${b1 - h}" width="${bw}" height="${h}" fill="${y >= 2022 ? RUS : LIGHT}"/>`;
+        pts.push([x + bw / 2, b2 - (gdp[i] / 8) * (b2 - t2)]);
+        s += `<text x="${x + bw / 2}" y="${b2 + 16}" text-anchor="middle">${y}</text>`;
+      });
+      s += `<polyline points="${pts.map(p => p.join(',')).join(' ')}" fill="none" stroke="${INK}" stroke-width="1.5"/>`;
+      pts.forEach(p => (s += `<circle cx="${p[0]}" cy="${p[1]}" r="2.5" fill="${INK}"/>`));
+      return s;
+    }
+
+    function drawArc(a) {
+      const P = (u, v) => [a.x + u * a.w, a.y + v * a.h].map(n => n.toFixed(1)).join(',');
+      const border = [[0.50, 0.03], [0.44, 0.14], [0.40, 0.34], [0.38, 0.44], [0.30, 0.50], [0.27, 0.62], [0.36, 0.80], [0.46, 0.97]];
+      const land = border.map(p => P(...p)).join(' ') + ` ${P(0.97, 0.97)} ${P(0.97, 0.03)}`;
+      let s = `<text x="${a.x}" y="${a.y + 4}">Schematic: not a map. Districts need a boundary file (tbc).</text>`;
+      s += `<polygon points="${land}" fill="#fff" stroke="${LIGHT}" stroke-width="1"/>`;
+      // the Finnish segment, new since April 2023
+      s += `<polyline points="${P(0.44, 0.14)} ${P(0.40, 0.34)} ${P(0.38, 0.44)}" fill="none" stroke="${INK}" stroke-width="4"/>`;
+      s += `<text x="${a.x + 0.47 * a.w}" y="${a.y + 0.27 * a.h}" class="b">Finland since Apr 2023</text>`;
+      // the district split
+      s += `<line x1="${P(0.34, 0.47).split(',')[0]}" y1="${P(0.34, 0.47).split(',')[1]}" x2="${P(0.97, 0.52).split(',')[0]}" y2="${P(0.97, 0.52).split(',')[1]}" stroke="${RUS}" stroke-width="2" stroke-dasharray="6 4"/>`;
+      s += `<text x="${a.x + 0.62 * a.w}" y="${a.y + 0.44 * a.h}" fill="${RUS}" style="fill:${RUS}" class="b">Leningrad MD</text><text x="${a.x + 0.62 * a.w}" y="${a.y + 0.58 * a.h}" style="fill:${RUS}" class="b">Moscow MD</text>`;
+      s += `<rect x="${P(0.04, 0.69).split(',')[0]}" y="${P(0.04, 0.69).split(',')[1]}" width="${a.w * 0.14}" height="${a.h * 0.06}" fill="#fff" stroke="${LIGHT}"/>`;
+      // five segments
+      const seg = [['Kola / Arctic', 0.52, 0.09], ['Karelia', 0.47, 0.36], ['Leningrad–Pskov', 0.38, 0.52], ['Kaliningrad', 0.21, 0.72], ['Belarus', 0.42, 0.88]];
+      seg.forEach(([t, u, v]) => {
+        const [x, y] = P(u, v).split(',');
+        s += `<circle cx="${x}" cy="${y}" r="4" fill="${RUS}"/><text x="${+x + 8}" y="${+y + 4}" class="b">${t}</text>`;
+      });
+      return s;
+    }
+
+    function drawBel(a) {
+      const P = (u, v) => [a.x + u * a.w, a.y + v * a.h];
+      const f = (u, v) => P(u, v).map(n => n.toFixed(1)).join(',');
+      const bel = [[0.30, 0.15], [0.55, 0.08], [0.88, 0.22], [0.90, 0.60], [0.70, 0.88], [0.28, 0.82], [0.22, 0.45]];
+      let s = `<text x="${a.x}" y="${a.y + 4}">Schematic: not a map. Positions and distances are placeholders.</text>`;
+      s += `<polygon points="${bel.map(p => f(...p)).join(' ')}" fill="#fff" stroke="${LIGHT}"/>`;
+      s += `<text x="${P(0.5, 0.72)[0]}" y="${P(0.5, 0.72)[1]}" class="b">Belarus</text>`;
+      s += `<text x="${P(0.38, 0.03)[0]}" y="${P(0.38, 0.03)[1]}">Latvia</text><text x="${P(0.05, 0.28)[0]}" y="${P(0.05, 0.28)[1]}">Lithuania</text><text x="${P(0.03, 0.78)[0]}" y="${P(0.03, 0.78)[1]}">Poland</text>`;
+      s += `<text x="${P(0.0, 0.99)[0]}" y="${P(0.0, 0.99)[1]}">Ukraine border: treatment to agree with the author</text>`;
+      s += `<rect x="${P(0.02, 0.06)[0]}" y="${P(0.02, 0.06)[1]}" width="${a.w * 0.14}" height="${a.h * 0.07}" fill="#fff" stroke="${LIGHT}"/><text x="${P(0.02, 0.05)[0]}" y="${P(0.02, 0.05)[1]}" class="b">Kaliningrad</text>`;
+      s += `<ellipse cx="${P(0.17, 0.2)[0]}" cy="${P(0.17, 0.2)[1]}" rx="${a.w * 0.025}" ry="${a.h * 0.04}" fill="none" stroke="${INK}" stroke-width="1.5"/><text x="${P(0.17, 0.2)[0] + 10}" y="${P(0.17, 0.2)[1] - 14}">Suwałki corridor</text>`;
+      // range ring around Asipovichy; radius is an open question (500 or 600 km)
+      const [ax, ay] = P(0.52, 0.5), r = a.w * 0.36;
+      s += `<circle cx="${ax}" cy="${ay}" r="${r}" fill="none" stroke="${MUTED}" stroke-width="1.5" stroke-dasharray="6 4"/>`;
+      s += `<text x="${ax}" y="${ay + r + 16}" text-anchor="middle">Iskander-M range ring (radius to be fixed)</text>`;
+      [['Vilnius', 0.30, 0.34], ['Warsaw', 0.08, 0.70]].forEach(([t, u, v]) => {
+        const [x, y] = P(u, v);
+        s += `<circle cx="${x}" cy="${y}" r="3" fill="${INK}"/><text x="${x + 6}" y="${y + 4}">${t}</text>`;
+      });
+      // two pins with confidence labels
+      const [cx, cy] = P(0.78, 0.4);
+      s += `<circle cx="${ax}" cy="${ay}" r="6" fill="${RUS}"/><text x="${ax + 10}" y="${ay + 4}" class="b">Asipovichy</text><text x="${ax + 10}" y="${ay + 18}">likely, based on imagery</text>`;
+      s += `<circle cx="${cx}" cy="${cy}" r="6" fill="#fff" stroke="${RUS}" stroke-width="2"/><text x="${cx - 8}" y="${cy - 12}" text-anchor="end" class="b">Krychaw</text><text x="${cx + 10}" y="${cy + 4}">officially claimed</text>`;
+      return s;
+    }
+
+    const STEPS = {
+      'M1.1': {
+        chart: 'bars', title: 'Russia’s military spending, 1992–2025', subtitle: 'Placeholder subtitle: bars in constant 2024 US$, share of GDP below',
+        flag: {
+          side: 'Fits. Two panels (bars, GDP share) in a 600 × 520 chart; no dual axis.',
+          over: 'Subject moved right. The most recent bars (the point of the step) sit right, clear of a left-aligned card, but the x-axis row is low and would be covered by a centred card.',
+          phone: 'Clash: the card covers the lower half, so both panels must fit in the upper half (about 640 × 320 usable). The GDP panel may have to drop to the hover.',
+        },
+      },
+      'P0': {
+        chart: 'arc', title: 'The Eastern flank as one front', subtitle: 'Placeholder subtitle: NATO’s land border with Russia, from the Arctic to Belarus',
+        flag: {
+          side: 'Fits. A portrait arc suits the tall stage.',
+          over: 'A portrait arc on a wide stage leaves about half of it empty. The subject is pushed right, so Karelia and Leningrad–Pskov sit near the card footprint.',
+          phone: 'Clash: the lower arc (Kaliningrad, Belarus) goes under the card. The arc shrinks to half height, or the view must pan with the scroll.',
+        },
+      },
+      'P4': {
+        chart: 'bel', title: 'Belarus: a forward position', subtitle: 'Placeholder subtitle: pins with a confidence label, one range ring',
+        flag: {
+          side: 'Needs a zoomed view of the south end: the range ring is wider than the arc. Zoom is a state of one map, not a new chart.',
+          over: 'Belarus is the southern end of the arc, so it sits at the bottom edge of a stage. It must be re-centred in the zoom, or Asipovichy lands under the card.',
+          phone: 'Clash: the ring (about 1,000 km across) plus Vilnius and Warsaw have to fit above the card. Probably a smaller ring label and no pin hovers until the card passes.',
+        },
+      },
+    };
+    const DRAW = { bars: drawBars, arc: drawArc, bel: drawBel };
+    const KEY = { bars: 'bars', arc: 'arc', bel: 'bel' };
+
+    // ── build ───────────────────────────────────────────────────────────────────────────────
+    const root = document.getElementById('scrolly');
+    const stage = root.querySelector('.lf-stage');
+    const steps = [...root.querySelectorAll('[data-step]')];
+    const mobile = matchMedia('(max-width: 768px)');
+    let chosen = 'side', current = null;
+
+    const charts = {};
+    Object.entries(STEPS).forEach(([id, st]) => {
+      if (charts[st.chart]) return;
+      const el = document.createElement('div');
+      el.className = 'lf-chart';
+      el.innerHTML = '<div class="lf-head"><div class="lf-title"></div><div class="lf-subtitle"></div></div><div class="lf-map"></div><div class="lf-foot"><div class="lf-footnote">Placeholder footnote</div><div class="lf-credit">Source: to be added</div></div>';
+      stage.append(el);
+      charts[st.chart] = { el, step: id };
+    });
+    const zone = document.createElement('div');
+    zone.className = 'wf-zone';
+    zone.textContent = 'Footprint of a card at activation. It then travels up while being read.';
+    stage.append(zone);
+
+    const mode = () => (mobile.matches ? 'phone' : chosen);
+
+    function render() {
+      const m = mode();
+      root.classList.toggle('lf-scrolly--side', m === 'side');
+      root.classList.toggle('lf-scrolly--over', m !== 'side');
+      root.classList.toggle('lf-scrolly--phone', m === 'phone');
+      Object.entries(charts).forEach(([key, c]) => {
+        const [W, H] = SPEC[m][key];
+        const st = STEPS[c.step];
+        c.el.querySelector('.lf-title').textContent = st.title;
+        c.el.querySelector('.lf-subtitle').textContent = st.subtitle;
+        c.el.querySelector('.lf-map').innerHTML =
+          `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="${st.title}">${DRAW[key](area(m, W, H))}</svg>`;
+      });
+      document.getElementById('wf-mobile-note').hidden = !mobile.matches;
+      flag();
+    }
+
+    function flag() {
+      const id = current ?? steps[0].dataset.step;
+      const m = mode();
+      document.querySelector('#wf-panel .wf-flag').innerHTML = `<b>${id}</b> · ${m}<br>${STEPS[id].flag[m]}`;
+    }
+
+    // ── scroll engine, as scroll.js: the step whose top has crossed 75% of the viewport ──────
+    function check() {
+      const line = window.innerHeight * 0.75;
+      let next = steps[0];
+      for (const s of steps) { if (s.getBoundingClientRect().top <= line) next = s; else break; }
+      if (next.dataset.step === current) return;
+      steps.forEach(s => s.classList.toggle('is-active', s === next));
+      current = next.dataset.step;
+      Object.entries(charts).forEach(([key, c]) => c.el.classList.toggle('is-active', key === STEPS[current].chart));
+      flag();
+    }
+    let ticking = false;
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; check(); }); } }, { passive: true });
+    window.addEventListener('resize', check);
+
+    document.querySelectorAll('input[name=lay]').forEach(r => r.addEventListener('change', e => { chosen = e.target.value; render(); }));
+    mobile.addEventListener('change', () => { render(); document.getElementById('wf-panel').open = !mobile.matches; });
+    document.getElementById('wf-panel').open = !mobile.matches;
+
+    render();
+    check();
+  </script>
+</body>
+
+</html>

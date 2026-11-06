@@ -1,0 +1,17 @@
+name,type,range_raw,location,range_note,range_km_min,range_km_max
+3M22 Tsirkon,hypersonic missile,1000,Russia proper,claimed,1000,1000
+3M55 / P-800 Oniks,supersonic anti-ship and land-attack cruise missile,400,Kaliningrad,+ (400 km+),400,400
+3M14 Kalibr,subsonic land-attack cruise missile,2500,Russia proper,,2500,2500
+Kh-32,supersonic anti-ship and land-attack cruise missile,1000,Russia proper,,1000,1000
+Kh-555,subsonic land-attack cruise missile,2500,Russia proper,,2500,2500
+Kh-101,subsonic land-attack cruise missile,3500,Russia proper,"less than (<3,500 km)",3500,3500
+Kinzhal,aeroballistic missile,1000,Russia proper,,1000,1000
+S8000 Banderol,subsonic land-attack cruise missile,500,Russia proper,,500,500
+Kh-69,subsonic land-attack cruise missile,400,Russia proper,,400,400
+9M723-1 (Iskander-M),aeroballistic / ballistic missile,600,Kaliningrad,,600,600
+Hwasong-11A,short-range ballistic missile,800,Russia proper,variant 11A,800,800
+9M728,ground-launched cruise missile,490-500,Kaliningrad,map panel shows 500 km,490,500
+9M729,ground-launched cruise missile,2500,Russia proper,bottom panel indicates 3000 km+,2500,2500
+RS-26 (Oreshnik),intermediate-range ballistic missile (IRBM),3000,Russia proper,approximate / chart label,3000,3000
+Geran-2 / Garpiya,one-way attack UAV,2000,Russia proper,map panel,2000,2000
+Gerbera,decoy / ISR UAV,600,Russia proper,,600,600
